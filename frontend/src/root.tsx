@@ -1,6 +1,6 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { App, ScrollToTop } from './App';
-import { Home } from './components/pages/home';
+import { Home } from './components/pages/Home';
 import { Contacts } from './components/pages/contacts';
 import { Reviews } from './components/pages/reviews';
 import { PortfolioManager } from './components/pages/PortfolioManager';
