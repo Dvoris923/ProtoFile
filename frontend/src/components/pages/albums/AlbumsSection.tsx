@@ -59,7 +59,7 @@ export const AlbumsSection: React.FC = () => {
   if (showCalculator) {
     return (
       <div className="relative">
-         <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-16 pt-25">
+         <div className="max-w-7xl mx-auto px-4 lg:px-8 mt-16 pt-26">
             <button
               onClick={() => setShowCalculator(false)}
               className="text-sm font-medium text-gray-500 hover:text-black flex items-center gap-2 mb-4"
