@@ -59,7 +59,8 @@ export const Portfolio: React.FC = () => {
               category,
               gradeGroup,
               image: row.image_url,
-            };
+              is_cover: row.is_cover, // Зберігаємо статус обкладинки
+            } as PortfolioItem & { is_cover?: boolean };
           });
           setDbItems(formattedData);
         }
@@ -75,10 +76,15 @@ export const Portfolio: React.FC = () => {
   const categoryStats = useMemo(() => {
     return MAIN_CATEGORIES.map(cat => {
       const items = allItems.filter(item => item.category === cat);
+
+      // Шукаємо фото, яке позначене як головна обкладинка (is_cover === true)
+      const coverItem = items.find((item: any) => item.is_cover);
+
       return {
         title: cat,
         count: items.length,
-        coverImage: items.length > 0 ? items[0].image : null
+        // Якщо знайдено обкладинку — беремо її, інакше ставимо перше фото з масиву
+        coverImage: coverItem ? coverItem.image : (items.length > 0 ? items[0].image : null)
       };
     });
   }, [allItems]);
@@ -100,7 +106,6 @@ export const Portfolio: React.FC = () => {
       {!activeCategory ? (
         <div className="animate-fade-in">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6">Портфоліо</h2>
-          {/* Змінено grid-cols-1 на grid-cols-2 для мобільних */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {categoryStats.map((cat) => (
               <PortfolioCategoryCard
@@ -121,12 +126,12 @@ export const Portfolio: React.FC = () => {
         <div className="animate-fade-in pt-8">
           <button
             onClick={() => setActiveCategory(null)}
-            className="mb-2 flex items-center gap-2 text-sm sm:text-base font-medium text-gray-80 shadow-sm p-4 hover:text-black bg-white transition-colors px-4 py-2 rounded-lg w-fit"
+            className="mb-2 flex items-center gap-2 text-sm sm:text-base font-medium text-gray-800 shadow-sm p-4 hover:text-black bg-white transition-colors px-4 py-2 rounded-lg w-fit"
           >
             ← Назад до категорій
           </button>
 
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 ">{activeCategory}</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6">{activeCategory}</h2>
 
           {activeCategory === 'Школа' && (
             <div className="flex justify-center gap-1.5 sm:gap-2 mb-10 bg-white rounded-xl w-fit mx-auto shadow-sm p-1">
@@ -137,7 +142,7 @@ export const Portfolio: React.FC = () => {
                   className={`px-6 sm:px-8 py-2 rounded-lg text-sm sm:text-base font-semibold transition-all ${
                     gradeGroup === grade
                       ? 'bg-black text-white'
-                      : 'bg-white text-black hover:bg-gray-100 hover:text-white'
+                      : 'bg-white text-black hover:bg-gray-100 hover:text-black'
                   }`}
                 >
                   {grade}
